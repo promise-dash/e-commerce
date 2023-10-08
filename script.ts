@@ -15,18 +15,20 @@ function displayProducts(products: Product[]) {
         const card = document.createElement('div');
         // card.href = `product-details.html?id=${product.id}`;
         card.classList.add('card', 'mb-3', 'mx-auto', 'shadow');
-        card.style.width = '20rem';
-        card.style.height = 'fit-content';
+        card.style.width = '280px';
+        card.style.height = '350px';
         card.style.padding = '20px';
         card.style.color = 'black';
         card.style.textDecoration = 'none';
+
+        const truncatedTitle = product?.title.substring(0, 40); + "...";
         
         card.innerHTML = `
         <a href=product-details.html?id=${product.id} class="card" style="color: black; text-decoration: none;">
-            <img src="${product.image}" class="card-img-top" alt="${product.title}" style="max-height: 200px; width: auto;">
+            <img src="${product.image}" class="card-img-top" alt="${truncatedTitle}" style="height: 150px; width: 180px; margin: auto">
             <div class="card-body">
-                <h5 class="card-title">${product.title}</h5>
-                <p class="card-text">Price: $${product.price}</p>
+                <h6 class="card-title mb-3 mt-3">${truncatedTitle}</h6>
+                <h6 class="card-text">Price: $${product.price}</h6>
             </div>
         </a>
         <button type="button" class="btn btn-warning" onclick="addToCart('${product.id}')">Add to cart</button>
@@ -85,8 +87,8 @@ function displayProductDetails(productDetails: any){
                 <div class="card-body">
                 <h5 class="card-title">${productDetails?.title}</h5>
                 <br>
-                <p class="card-text">${productDetails.description}</p>
-                <p class="card-text"><small class="text-muted">Ratings: ${productDetails.rating.rate}</small></p>
+                <p class="card-text" style="font-weight: 400; font-size: 15px">${productDetails.description}</p>
+                <p class="card-text"><small class="text-muted">Ratings: ${productDetails.rating.rate}⭐</small></p>
                 <p class="card-text">$${productDetails.price}</p>
                 <button type="button" class="btn btn-warning" onclick="addToCart('${productDetails.id}')">Add to cart</button>
                 </div>
@@ -128,13 +130,11 @@ function displayCartProduct(productDetails: any){
         <div class="card mb-3" style="max-width: 80%; margin: auto; max-height: '200px';">
             <div class="row g-0">
             <div class="col-md-4">
-                <img src=${productDetails?.image} class="img-fluid rounded-start" alt="...">
+                <img src=${productDetails?.image} class="img-fluid rounded-start" alt="..." style="width: 150px; height: 180px">
             </div>
             <div class="col-md-8">
                 <div class="card-body">
                 <h5 class="card-title">${productDetails?.title}</h5>
-                <br>
-                <p class="card-text">${productDetails.description}</p>
                 <p class="card-text"><small class="text-muted">Ratings: ${productDetails.rating.rate}</small></p>
                 <p class="card-text">$${productDetails.price}</p>
                 <button type="button" class="btn btn-warning" onclick="removeFromCart('${productDetails.id}')">Remove</button>
