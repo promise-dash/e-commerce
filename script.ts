@@ -22,7 +22,7 @@ function displayProducts(products: Product[]) {
         card.style.textDecoration = 'none';
         
         card.innerHTML = `
-        <a href=product-details.html?id=${product.id} class="card">
+        <a href=product-details.html?id=${product.id} class="card" style="color: black; text-decoration: none;">
             <img src="${product.image}" class="card-img-top" alt="${product.title}" style="max-height: 200px; width: auto;">
             <div class="card-body">
                 <h5 class="card-title">${product.title}</h5>
@@ -168,8 +168,8 @@ function removeFromCart(id: number){
     
     localStorage.setItem('cart', JSON.stringify(updatedCart));
     
-    calculateAndStoreTotalPrice();
     location.reload();
+    calculateAndStoreTotalPrice();
 }
 
 // Function to calculate the sum of prices in the cart and store it in local storage

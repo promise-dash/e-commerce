@@ -47,7 +47,7 @@ function displayProducts(products) {
         card.style.padding = '20px';
         card.style.color = 'black';
         card.style.textDecoration = 'none';
-        card.innerHTML = "\n        <a href=product-details.html?id=".concat(product.id, " class=\"card\">\n            <img src=\"").concat(product.image, "\" class=\"card-img-top\" alt=\"").concat(product.title, "\" style=\"max-height: 200px; width: auto;\">\n            <div class=\"card-body\">\n                <h5 class=\"card-title\">").concat(product.title, "</h5>\n                <p class=\"card-text\">Price: $").concat(product.price, "</p>\n            </div>\n        </a>\n        <button type=\"button\" class=\"btn btn-warning\" onclick=\"addToCart('").concat(product.id, "')\">Add to cart</button>\n        ");
+        card.innerHTML = "\n        <a href=product-details.html?id=".concat(product.id, " class=\"card\" style=\"color: black; text-decoration: none;\">\n            <img src=\"").concat(product.image, "\" class=\"card-img-top\" alt=\"").concat(product.title, "\" style=\"max-height: 200px; width: auto;\">\n            <div class=\"card-body\">\n                <h5 class=\"card-title\">").concat(product.title, "</h5>\n                <p class=\"card-text\">Price: $").concat(product.price, "</p>\n            </div>\n        </a>\n        <button type=\"button\" class=\"btn btn-warning\" onclick=\"addToCart('").concat(product.id, "')\">Add to cart</button>\n        ");
         productContainer === null || productContainer === void 0 ? void 0 : productContainer.appendChild(card);
     });
 }
@@ -181,8 +181,8 @@ function removeFromCart(id) {
     var existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
     var updatedCart = existingCart.filter(function (productId) { return productId !== id; });
     localStorage.setItem('cart', JSON.stringify(updatedCart));
-    calculateAndStoreTotalPrice();
     location.reload();
+    calculateAndStoreTotalPrice();
 }
 // Function to calculate the sum of prices in the cart and store it in local storage
 function calculateAndStoreTotalPrice() {
