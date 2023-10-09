@@ -250,7 +250,7 @@ async function handlePageChange() {
   
     // console.log(currentPageUrl);
 
-   if(currentPageUrl === '/index.html'){
+   if(currentPageUrl.startsWith('/index')){
         const categories = await getAllCategories();
 
         let products;
@@ -261,7 +261,7 @@ async function handlePageChange() {
             products && displayProducts(products);
         });
    } 
-   else if(currentPageUrl.startsWith('/product-details.html')){
+   else if(currentPageUrl.startsWith('/product-details')){
 
         const productId = getParameterByName('id', window.location.href);
         // console.log(productId);

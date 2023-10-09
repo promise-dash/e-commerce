@@ -265,7 +265,7 @@ function handlePageChange() {
             switch (_a.label) {
                 case 0:
                     currentPageUrl = window.location.pathname;
-                    if (!(currentPageUrl === '/index.html')) return [3 /*break*/, 2];
+                    if (!currentPageUrl.startsWith('/index')) return [3 /*break*/, 2];
                     return [4 /*yield*/, getAllCategories()];
                 case 1:
                     categories = _a.sent();
@@ -282,7 +282,7 @@ function handlePageChange() {
                     }); });
                     return [3 /*break*/, 5];
                 case 2:
-                    if (!currentPageUrl.startsWith('/product-details.html')) return [3 /*break*/, 4];
+                    if (!currentPageUrl.startsWith('/product-details')) return [3 /*break*/, 4];
                     productId = getParameterByName('id', window.location.href);
                     return [4 /*yield*/, getProductDetails(productId)];
                 case 3:
