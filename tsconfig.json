@@ -1,10 +1,5 @@
 {
-    "compilerOptions": {
-      "target": "ES6", // Or any other target version you prefer
-      "module": "CommonJS",
-      "outDir": "./script.js", // Specify the output directory for compiled JavaScript
-      "strict": true, // Enable strict type-checking
-      "lib": ["ES2015", "dom"],
-    }
+  "compilerOptions": {
+    "target": "es2017"
   }
-  
+}

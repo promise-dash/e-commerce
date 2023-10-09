@@ -31,7 +31,7 @@ function displayProducts(products: Product[]) {
                 <h6 class="card-text">Price: $${product.price}</h6>
             </div>
         </a>
-        <button type="button" class="btn btn-warning" onclick="addToCart('${product.id}')">Add to cart</button>
+        <button type="button" class="btn btn-warning cart-btn" onclick="addToCart('${product.id}')">Add to cart</button>
         `;
         
         productContainer?.appendChild(card);
@@ -106,7 +106,7 @@ async function getCartItems() {
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
     
     if (cart.length === 0) {
-        console.log('Cart is empty.');
+        // console.log('Cart is empty.');
         return;
     }
     
@@ -156,7 +156,7 @@ function addToCart(id: number) {
 
     localStorage.setItem('cart', JSON.stringify(existingCart));
 
-    console.log('Updated Cart:', existingCart);
+    // console.log('Updated Cart:', existingCart);
     calculateAndStoreTotalPrice();
     alert('Item added to cart');
 }
@@ -177,7 +177,6 @@ function removeFromCart(id: number){
 async function calculateAndStoreTotalPrice() {
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
     let totalPrice = 0;
-  
     for (const productId of cart) {
       try {
         const productDetails = await getProductDetails(productId);
@@ -195,7 +194,7 @@ async function calculateAndStoreTotalPrice() {
 // Utility function to get 'id' from the params
 
 function getParameterByName(name: string, url: string) {
-    console.log('fetching product details');
+    // console.log('fetching product details');
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, '\\$&');
     var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
@@ -209,11 +208,38 @@ function getParameterByName(name: string, url: string) {
 //Checkout functionality
 
 const payButton = document.getElementById('pay-button');
+
+const paymentPage = document.querySelector('.paymentPage') as HTMLDivElement;
+
+const nameInput = document.getElementById('text') as HTMLInputElement;
+const cardNumberInput = document.getElementById('card-number') as HTMLInputElement;
+const expirationDateInput = document.getElementById('expiration-date') as HTMLInputElement;
+const cvvInput = document.getElementById('cvv') as HTMLInputElement;
+
 if (payButton) {
     payButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        alert('Payment Successfull!');
-        window.location.href = 'index.html';
+        if (nameInput.value.trim() !== '' && cardNumberInput.value.trim() !== '' && expirationDateInput.value.trim() !== '' && cvvInput.value.trim() !== '') {
+            e.preventDefault();
+            // alert('Payment successful!');
+
+            paymentPage.innerHTML = `
+                <div class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" style="display: block; position: absolute; top: 10px; right: 35%; height: 3rem;">
+                    <div class="d-flex">
+                    <div class="toast-body">
+                        Payment Successfull
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            `;
+
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 2000);
+        }
+        else{
+            alert('Please fill in all the required fields.');
+        }
     });
 }
 
@@ -222,7 +248,7 @@ if (payButton) {
 async function handlePageChange() {
     const currentPageUrl = window.location.pathname;
   
-    console.log(currentPageUrl);
+    // console.log(currentPageUrl);
 
    if(currentPageUrl === '/index.html'){
         const categories = await getAllCategories();
@@ -238,15 +264,15 @@ async function handlePageChange() {
    else if(currentPageUrl.startsWith('/product-details.html')){
 
         const productId = getParameterByName('id', window.location.href);
-        console.log(productId);
+        // console.log(productId);
 
         const productDetails = await getProductDetails(productId);
-        console.log('Product Details:', productDetails);
+        // console.log('Product Details:', productDetails);
         displayProductDetails(productDetails);
  
     } 
     else{
-        console.log('Cart Page');
+        // console.log('Cart Page');
         calculateAndStoreTotalPrice();
         getCartItems();
 

@@ -49,7 +49,7 @@ function displayProducts(products) {
         card.style.textDecoration = 'none';
         var truncatedTitle = product === null || product === void 0 ? void 0 : product.title.substring(0, 40);
         +"...";
-        card.innerHTML = "\n        <a href=product-details.html?id=".concat(product.id, " class=\"card\" style=\"color: black; text-decoration: none;\">\n            <img src=\"").concat(product.image, "\" class=\"card-img-top\" alt=\"").concat(truncatedTitle, "\" style=\"height: 150px; width: 180px; margin: auto\">\n            <div class=\"card-body\">\n                <h6 class=\"card-title mb-3 mt-3\">").concat(truncatedTitle, "</h6>\n                <h6 class=\"card-text\">Price: $").concat(product.price, "</h6>\n            </div>\n        </a>\n        <button type=\"button\" class=\"btn btn-warning\" onclick=\"addToCart('").concat(product.id, "')\">Add to cart</button>\n        ");
+        card.innerHTML = "\n        <a href=product-details.html?id=".concat(product.id, " class=\"card\" style=\"color: black; text-decoration: none;\">\n            <img src=\"").concat(product.image, "\" class=\"card-img-top\" alt=\"").concat(truncatedTitle, "\" style=\"height: 150px; width: 180px; margin: auto\">\n            <div class=\"card-body\">\n                <h6 class=\"card-title mb-3 mt-3\">").concat(truncatedTitle, "</h6>\n                <h6 class=\"card-text\">Price: $").concat(product.price, "</h6>\n            </div>\n        </a>\n        <button type=\"button\" class=\"btn btn-warning cart-btn\" onclick=\"addToCart('").concat(product.id, "')\">Add to cart</button>\n        ");
         productContainer === null || productContainer === void 0 ? void 0 : productContainer.appendChild(card);
     });
 }
@@ -134,7 +134,7 @@ function getCartItems() {
                 case 0:
                     cart = JSON.parse(localStorage.getItem('cart') || '[]');
                     if (cart.length === 0) {
-                        console.log('Cart is empty.');
+                        // console.log('Cart is empty.');
                         return [2 /*return*/];
                     }
                     _i = 0, cart_1 = cart;
@@ -175,7 +175,7 @@ function addToCart(id) {
     var existingCart = JSON.parse(localStorage.getItem('cart')) || [];
     existingCart.push(id);
     localStorage.setItem('cart', JSON.stringify(existingCart));
-    console.log('Updated Cart:', existingCart);
+    // console.log('Updated Cart:', existingCart);
     calculateAndStoreTotalPrice();
     alert('Item added to cart');
 }
@@ -224,7 +224,7 @@ function calculateAndStoreTotalPrice() {
 }
 // Utility function to get 'id' from the params
 function getParameterByName(name, url) {
-    console.log('fetching product details');
+    // console.log('fetching product details');
     if (!url)
         url = window.location.href;
     name = name.replace(/[\[\]]/g, '\\$&');
@@ -237,11 +237,24 @@ function getParameterByName(name, url) {
 }
 //Checkout functionality
 var payButton = document.getElementById('pay-button');
+var paymentPage = document.querySelector('.paymentPage');
+var nameInput = document.getElementById('text');
+var cardNumberInput = document.getElementById('card-number');
+var expirationDateInput = document.getElementById('expiration-date');
+var cvvInput = document.getElementById('cvv');
 if (payButton) {
     payButton.addEventListener('click', function (e) {
-        e.preventDefault();
-        alert('Payment Successfull!');
-        window.location.href = 'index.html';
+        if (nameInput.value.trim() !== '' && cardNumberInput.value.trim() !== '' && expirationDateInput.value.trim() !== '' && cvvInput.value.trim() !== '') {
+            e.preventDefault();
+            // alert('Payment successful!');
+            paymentPage.innerHTML = "\n                <div class=\"toast align-items-center text-bg-success border-0\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\" style=\"display: block; position: absolute; top: 10px; right: 35%; height: 3rem;\">\n                    <div class=\"d-flex\">\n                    <div class=\"toast-body\">\n                        Payment Successfull\n                    </div>\n                    <button type=\"button\" class=\"btn-close btn-close-white me-2 m-auto\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button>\n                    </div>\n                </div>\n            ";
+            setTimeout(function () {
+                window.location.href = 'index.html';
+            }, 2000);
+        }
+        else {
+            alert('Please fill in all the required fields.');
+        }
     });
 }
 function handlePageChange() {
@@ -252,7 +265,6 @@ function handlePageChange() {
             switch (_a.label) {
                 case 0:
                     currentPageUrl = window.location.pathname;
-                    console.log(currentPageUrl);
                     if (!(currentPageUrl === '/index.html')) return [3 /*break*/, 2];
                     return [4 /*yield*/, getAllCategories()];
                 case 1:
@@ -272,15 +284,14 @@ function handlePageChange() {
                 case 2:
                     if (!currentPageUrl.startsWith('/product-details.html')) return [3 /*break*/, 4];
                     productId = getParameterByName('id', window.location.href);
-                    console.log(productId);
                     return [4 /*yield*/, getProductDetails(productId)];
                 case 3:
                     productDetails = _a.sent();
-                    console.log('Product Details:', productDetails);
+                    // console.log('Product Details:', productDetails);
                     displayProductDetails(productDetails);
                     return [3 /*break*/, 5];
                 case 4:
-                    console.log('Cart Page');
+                    // console.log('Cart Page');
                     calculateAndStoreTotalPrice();
                     getCartItems();
                     totalElement = document.querySelector('.total');
